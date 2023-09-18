@@ -35,7 +35,7 @@ class FalconRepositoryTest {
     }
 
     @Test
-    fun testGetPlanets() = runTest {
+    fun `test repository get planets`() = runTest {
         val mockPlanetsResponse = listOf(
             PlanetDto(100, "Planet1"),
             PlanetDto(200, "Planet2")
@@ -56,7 +56,7 @@ class FalconRepositoryTest {
 
 
     @Test
-    fun testGetVehicles() = runTest {
+    fun `test repository get vehicles`() = runTest {
         val mockVehiclesResponse = listOf(
             VehicleDto(100, "Vehicle1", 100, 2),
             VehicleDto(200, "Vehicle2", 200, 3),
@@ -80,7 +80,7 @@ class FalconRepositoryTest {
     }
 
     @Test
-    fun findFalconSuccessTest() = runTest {
+    fun `find falcon success response`() = runTest {
         val planets = listOf(
             Planet(100, "Planet1"),
             Planet(200, "Planet2")
@@ -111,7 +111,7 @@ class FalconRepositoryTest {
 
 
     @Test
-    fun findFalconErrorTest() = runTest {
+    fun `find falcon when there is no token`() = runTest {
         val planets = listOf(
             Planet(100, "Planet1"),
             Planet(200, "Planet2")
@@ -143,9 +143,41 @@ class FalconRepositoryTest {
         )
     }
 
+    @Test
+    fun `find falcon throws an error`() = runTest {
+        val planets = listOf(
+            Planet(100, "Planet1"),
+            Planet(200, "Planet2")
+        )
+        val vehicles = listOf(
+            Vehicle(100, "Vehicle1", 100, 2),
+            Vehicle(200, "Vehicle2", 200, 3),
+        )
+
+        val findFalconMockResponse =
+            FindFalconResponse(error = "Network error")
+
+        coEvery {
+            falconService.findFalcon(any())
+        } returns findFalconMockResponse
+
+        coEvery {
+            falconService.getToken()
+        } returns TokenDto("Test token")
+
+        val falconResponse = falconRepository.findFalcon(planets = planets, vehicle = vehicles)
+
+        Assert.assertNotNull(falconResponse)
+
+        Assert.assertTrue(falconResponse is FindFalconStatus.Error)
+        Assert.assertEquals(
+            ErrorTypes.OtherError("Network error"),
+            (falconResponse as FindFalconStatus.Error).errorType
+        )
+    }
 
     @Test
-    fun findFalconNotFoundTest() = runTest {
+    fun `find falcon planet not found`() = runTest {
         val planets = listOf(
             Planet(100, "Planet1"),
             Planet(200, "Planet2")

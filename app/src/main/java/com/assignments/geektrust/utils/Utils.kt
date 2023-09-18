@@ -1,5 +1,8 @@
 package com.assignments.geektrust.utils
 
+import com.assignments.geektrust.models.Planet
+import com.assignments.geektrust.models.Vehicle
+
 fun <A, B> bothNotNull(paramA: A?, paramB: B?): Pair<A, B>? {
     return if (paramA != null && paramB != null) {
         Pair(paramA, paramB)
@@ -26,4 +29,23 @@ fun <A, B, C, D> quadNotNull(
     } else {
         null
     }
+}
+
+fun String.getPlanet(): Planet? {
+    return try {
+        val values = split("-")
+        Planet(values[0].toInt(), values[1])
+    } catch (e: Exception) {
+        null
+    }
+}
+
+fun String.getVehicle(): Vehicle? {
+    return try {
+        val values = split("-")
+        Vehicle(values[0].toInt(), values[1], values[2].toInt(), values[3].toInt())
+    } catch (e: Exception) {
+        null
+    }
+
 }

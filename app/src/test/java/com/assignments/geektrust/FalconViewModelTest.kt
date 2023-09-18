@@ -6,8 +6,8 @@ import com.assignments.geektrust.models.Vehicle
 import com.assignments.geektrust.repository.FalconRepository
 import com.assignments.geektrust.viewmodel.FalconViewModel
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.mockk
-import io.mockk.mockkObject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
@@ -38,7 +38,7 @@ class FalconViewModelTest {
 
 
     @Test
-    fun testPlanetsFetch() = runTest {
+    fun `check fetch planets`() = runTest {
         val mockPlanetsResponse = listOf(
             Planet(100, "Planet1"),
             Planet(200, "Planet2")
@@ -64,7 +64,7 @@ class FalconViewModelTest {
     }
 
     @Test
-    fun testVehiclesFetch() = runTest {
+    fun `check vehicles fetch`() = runTest {
         val mockVehiclesResponse = listOf(
             Vehicle(100, "Vehicle1", 100, 2),
             Vehicle(200, "Vehicle2", 200, 3),
@@ -94,7 +94,7 @@ class FalconViewModelTest {
     }
 
     @Test
-    fun findFalconStatusTest() = runTest {
+    fun `find falcon status test`() = runTest {
         val planets = listOf(
             Planet(100, "Planet1"),
             Planet(200, "Planet2")
@@ -105,6 +105,8 @@ class FalconViewModelTest {
         )
 
         val findFalconStatus = FindFalconStatus.FalconNotFound
+
+        every { findFalconStatus } returns FindFalconStatus.FalconNotFound
 
         coEvery {
             falconRepository.findFalcon(any(), any())
