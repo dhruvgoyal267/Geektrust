@@ -1,9 +1,10 @@
 package com.assignments.geektrust.models
 
 sealed class FindFalconStatus {
-    object FalconFinding : FindFalconStatus()
-    data class FalconFound(val planet: String) : FindFalconStatus()
-    object FalconNotFound : FindFalconStatus()
+    object NotFinding : FindFalconStatus()
+    object Finding : FindFalconStatus()
+    data class Found(val planet: String) : FindFalconStatus()
+    object NotFound : FindFalconStatus()
     data class Error(val errorType: ErrorTypes) : FindFalconStatus()
 }
 

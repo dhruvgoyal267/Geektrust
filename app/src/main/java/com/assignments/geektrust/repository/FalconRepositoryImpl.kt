@@ -55,10 +55,10 @@ class FalconRepositoryImpl @Inject constructor(
                     }
 
                     findFalconResponse.status == Constants.SUCCESS_RESPONSE && findFalconResponse.planetName != null -> {
-                        FindFalconStatus.FalconFound(findFalconResponse.planetName)
+                        FindFalconStatus.Found(findFalconResponse.planetName)
                     }
 
-                    else -> FindFalconStatus.FalconNotFound
+                    else -> FindFalconStatus.NotFound
                 }
             } ?: FindFalconStatus.Error(ErrorTypes.TokenNotFound)
         }

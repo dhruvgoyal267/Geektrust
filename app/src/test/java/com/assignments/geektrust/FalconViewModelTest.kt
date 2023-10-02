@@ -104,9 +104,9 @@ class FalconViewModelTest {
             Vehicle(200, "Vehicle2", 200, 3),
         )
 
-        val findFalconStatus = FindFalconStatus.FalconNotFound
+        val findFalconStatus = FindFalconStatus.NotFound
 
-        every { findFalconStatus } returns FindFalconStatus.FalconNotFound
+        every { findFalconStatus } returns FindFalconStatus.NotFound
 
         coEvery {
             falconRepository.findFalcon(any(), any())
@@ -114,7 +114,7 @@ class FalconViewModelTest {
 
 
         Assert.assertEquals(
-            FindFalconStatus.FalconFinding,
+            FindFalconStatus.Finding,
             falconViewModel.findFalconStatus.value
         )
 

@@ -9,10 +9,11 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.CoroutineScope
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -20,11 +21,30 @@ import javax.inject.Singleton
 object AppModuleProvider {
 
     @Provides
-    fun provideFalconService(): FalconService {
+    @Singleton
+    fun provideFalconService(retrofit: Retrofit): FalconService {
+        return retrofit.create(FalconService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideRetrofitInstance(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(Constants.BASE_API)
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(FalconService::class.java)
+    }
+
+
+    @Provides
+    @Singleton
+    fun provideOkHttpInterceptor(): OkHttpClient {
+        val okHttpClient = OkHttpClient.Builder()
+        val logger = HttpLoggingInterceptor()
+        logger.level = HttpLoggingInterceptor.Level.BODY
+        okHttpClient.addInterceptor(logger)
+        return okHttpClient.build()
     }
 
     @Provides

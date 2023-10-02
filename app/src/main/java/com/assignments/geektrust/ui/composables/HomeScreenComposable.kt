@@ -38,9 +38,9 @@ fun HomeScreenComposable(onClickNext: () -> Unit) {
         Spacer(modifier = Modifier.height(12.dp))
 
         Text(
-            text = "Our problem is set in the planet of Lengaburu…in the distant\n" +
-                    "distant galaxy of Tara B. After the recent war with neighbouring\n" +
-                    "planet Falicornia, King Shan has exiled the Queen of Falicornia\n" +
+            text = "Our problem is set in the planet of Lengaburu…in the distant " +
+                    "distant galaxy of Tara B. After the recent war with neighbouring " +
+                    "planet Falicornia, King Shan has exiled the Queen of Falicornia " +
                     "for 15 years",
             textAlign = TextAlign.Left
         )

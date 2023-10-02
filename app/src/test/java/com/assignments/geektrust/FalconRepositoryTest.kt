@@ -105,8 +105,8 @@ class FalconRepositoryTest {
 
         Assert.assertNotNull(falconResponse)
 
-        Assert.assertTrue(falconResponse is FindFalconStatus.FalconFound)
-        Assert.assertEquals("Planet1", (falconResponse as FindFalconStatus.FalconFound).planet)
+        Assert.assertTrue(falconResponse is FindFalconStatus.Found)
+        Assert.assertEquals("Planet1", (falconResponse as FindFalconStatus.Found).planet)
     }
 
 
@@ -202,6 +202,6 @@ class FalconRepositoryTest {
 
         Assert.assertNotNull(falconResponse)
 
-        Assert.assertTrue(falconResponse is FindFalconStatus.FalconNotFound)
+        Assert.assertTrue(falconResponse is FindFalconStatus.NotFound)
     }
 }

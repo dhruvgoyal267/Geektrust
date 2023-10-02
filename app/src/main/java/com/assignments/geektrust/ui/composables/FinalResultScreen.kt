@@ -2,7 +2,8 @@ package com.assignments.geektrust.ui.composables
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,23 +24,40 @@ import com.assignments.geektrust.models.FindFalconStatus
 @Composable
 fun FinalResultScreen(findFalconStatus: FindFalconStatus, onHomeClicked: () -> Unit) {
 
-
-    Box(
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White),
-        contentAlignment = Alignment.Center
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
         val playAgainVisible = remember {
-            mutableStateOf(findFalconStatus != FindFalconStatus.FalconFinding)
+            mutableStateOf(findFalconStatus != FindFalconStatus.Finding)
         }
 
         when (findFalconStatus) {
-            is FindFalconStatus.Error -> Text("Sorry! unable to find as of now try again later")
-            FindFalconStatus.FalconFinding -> Loader()
-            is FindFalconStatus.FalconFound -> Text("Falcon found on planet ${findFalconStatus.planet}")
-            FindFalconStatus.FalconNotFound -> Text("Falcon not found on selected planets, try again")
+            is FindFalconStatus.Error -> {
+                playAgainVisible.value = true
+                Text(
+                    findFalconStatus.errorType.errorMsg
+                        ?: "Sorry! unable to find as of now try again later"
+                )
+            }
+
+            FindFalconStatus.Finding -> Loader()
+
+            is FindFalconStatus.Found -> {
+                playAgainVisible.value = true
+                Text("Falcon found on planet ${findFalconStatus.planet}")
+            }
+
+            FindFalconStatus.NotFound -> {
+                playAgainVisible.value = true
+                Text("Falcon not found on selected planets, try again")
+            }
+
+            FindFalconStatus.NotFinding -> {}
         }
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -57,7 +75,7 @@ fun Loader() {
     Row {
         CircularProgressIndicator()
 
-        Spacer(Modifier.width(2.dp))
+        Spacer(Modifier.width(5.dp))
 
         Text("Finding falcon please wait.....")
     }

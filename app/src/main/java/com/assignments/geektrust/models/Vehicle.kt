@@ -8,11 +8,7 @@ data class Vehicle(
     val name: String,
     val speed: Int,
     val totalNo: Int
-){
-    override fun toString(): String {
-        return "$maxDistance-$name-$speed-$totalNo"
-    }
-}
+) : DataListItem(name)
 
 fun VehicleDto.toVehicle(): Vehicle? = quadNotNull(
     maxDistance,

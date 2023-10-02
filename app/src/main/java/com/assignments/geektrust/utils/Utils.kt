@@ -30,22 +30,3 @@ fun <A, B, C, D> quadNotNull(
         null
     }
 }
-
-fun String.getPlanet(): Planet? {
-    return try {
-        val values = split("-")
-        Planet(values[0].toInt(), values[1])
-    } catch (e: Exception) {
-        null
-    }
-}
-
-fun String.getVehicle(): Vehicle? {
-    return try {
-        val values = split("-")
-        Vehicle(values[0].toInt(), values[1], values[2].toInt(), values[3].toInt())
-    } catch (e: Exception) {
-        null
-    }
-
-}
